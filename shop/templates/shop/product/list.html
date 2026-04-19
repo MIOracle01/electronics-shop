@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Магазин электроники{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <h3>Категории</h3>
+        <ul class="list-unstyled">
+            <li><a href="{% url 'shop:product_list' %}">Все</a></li>
+            {% for c in categories %}
+                <li><a href="{{ c.get_absolute_url }}">{{ c.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-9">
+        <h1>{% if category %}{{ category.name }}{% else %}Товары{% endif %}</h1>
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <a href="{{ product.get_absolute_url }}">
+                            {% if product.image %}
+                                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                            {% else %}
+                                <div class="card-img-top bg-light text-center py-5">Нет фото</div>
+                            {% endif %}
+                        </a>
+                        <div class="card-body">
+                            <a href="{{ product.get_absolute_url }}" class="text-dark text-decoration-none">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                            </a>
+                            <p class="card-text">{{ product.price }} руб.</p>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Товаров нет.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
